@@ -8,77 +8,112 @@ logging.basicConfig(format='%(asctime)s %(message)s',
 user_list=[] # list to store the object 
 
 class Address_Book:
-    def __init__(self,first_name):
-        self.first_name=first_name
-        self.last_name=input("Enter the last name : ")
-        self.address=input("Enter the address : ")
-        self.city=input("Enter the city : ")
-        self.zip=int(input("Enter the zip code: "))
-        self.phone_number=int(input("Enter the phone number : "))
-        self.email=input("Enter the email : ")
-        user_list.append(self)
-        main()
+    def __init__(self,name):
+        self.name=name
+        self.contact=[]
+
+    def add_contact(self,first_name):
+        contact = {
+            'first_name': first_name,
+            'last_name': input("Enter the last name: "),
+            'address': input("Enter the address: "),
+            'city': input("Enter the city: "),
+            'zip': int(input("Enter the zip code: ")),
+            'phone_number': int(input("Enter the phone number: ")),
+            'email': input("Enter the email: ")
+        }
+        self.contact.append(contact)
+        print("Contact added successfully.")
     
     def show_details(self):
-        print(f"First name is: {self.first_name}, "
-              f"Last name is: {self.last_name}, " 
-              f"Address is : {self.address}, " 
-              f"city is : {self.city}, " 
-              f"zip code is : {self.zip}, " 
-              f"phone number is : {self.phone_number}, " 
-              f"Email is: {self.email}, ")
-        return main()
+        if self.contact:
+            for contact in self.contact:
+                print(f"First name: {contact['first_name']}, "
+                      f"Last name: {contact['last_name']}, "
+                      f"Address: {contact['address']}, "
+                      f"City: {contact['city']}, "
+                      f"Zip code: {contact['zip']}, "
+                      f"Phone number: {contact['phone_number']}, "
+                      f"Email: {contact['email']}")
+        else:
+            print("No contacts found.")
     
-    def change_details(self):
-        name_update=input(f"Enter the new name for the contact {self.first_name} : ")
-        self.first_name=name_update
-        print("Name changed ")
-        return main()
-    
-    def delete_info(self,input_name):
-        for user in user_list:
-            if user.first_name==input_name:
-                user_list.remove(user)
-                print("Contact deleted ")
+    def change_details(self,first_name):
+        for contact in self.contact:
+            if contact['first_name'] == first_name:
+                print("Enter new details:")
+                contact['last_name'] = input(f"Last name ({contact['last_name']}): ")
+                contact['address'] = input(f"Address ({contact['address']}): ")
+                contact['city'] = input(f"City ({contact['city']}): ")
+                contact['zip'] = int(input(f"Zip code ({contact['zip']}): "))
+                contact['phone_number'] = int(input(f"Phone number ({contact['phone_number']}): "))
+                contact['email'] = input(f"Email ({contact['email']}): ")
+                print("Contact updated successfully.")
                 break
         else:
-            print("Contact not found ")
-        return main()
+            print("Contact not found.")
+    
+    def delete_info(self,input_name):
+        for contact in self.contact:
+            if contact['first_name'] == input_name:
+                self.contact.remove(contact)
+                print("Contact deleted successfully.")
+                break
+        else:
+            print("Contact not found.")
 
 def main():
+    address_book_dictionary={} #dictionary to store address book names
     while True:
         try:
-            input_user=int(input("Enter 0 to close the programm : \nEnter 1 to add user :  \n Enter 2 to edit user : \n Enter 3 to check the details of the contact: \n Enter 4 to delete the existing contact: "))
-            if input_user==0:
-                break
-            match(input_user):
+            print("Press ENTER to close the programm : \n Enter 1 to add new address book \n Enter 2 to select existing address book : ")
+            input_choice=int(input("Enter the choice: "))
+            match input_choice:
                 case 1:
-                    new_user=input("Enter the first_name of the user")
-                    new_user=Address_Book(new_user)
-                    # user_list.append(new_user) #storing object in the list
+                    name = input("Enter the name of the new address book: ")
+                    if name not in address_book_dictionary:
+                        address_book_dictionary[name] = Address_Book(name)
+                        print("Address book created successfully.")
+                    else:
+                        print("An address book with that name already exists.") 
                 case 2:
-                    name_update=input("Enter the name of the contact to change the info: ")
-                    for user in user_list:
-                        if user.first_name==name_update:
-                            user.change_details()
-                            break
-                    else:
-                        print("contact not found")
-                case 3:
-                    input_name=input("Enter the name of the user to check the details: ")
-                    for user in user_list:
-                        if user.first_name==input_name:
-                            user.show_details()
-                            break
-                    else:
-                        print("Contact not found ")
-                case 4:
-                    input_name=input("Enter the name of the contact to delete the info : ")
-                    for user in user_list:
-                        if user.first_name==input_name:
-                            user.delete_info(input_name)
-                    else:
-                        print("Contact not found ")
+                        for books in address_book_dictionary.keys():
+                            print(books,end="  ")
+                            print()
+                        name = input("Enter the name of the address book: ")
+                        address_book = address_book_dictionary.get(name)
+                        if address_book:
+                            while True:
+                                print("\nEnter 0 to return to the main menu.")
+                                print("Enter 1 to add a new contact.")
+                                print("Enter 2 to show all contacts.")
+                                print("Enter 3 to edit a contact.")
+                                print("Enter 4 to delete a contact.")
+                                option = int(input("Enter your option: "))
+
+                                if option == 0:
+                                    break
+
+                                match option:
+                                    case 1:
+                                        first_name = input("Enter the first name: ")
+                                        address_book.add_contact(first_name)
+
+                                    case 2:
+                                        address_book.show_details()
+
+                                    case 3:
+                                        first_name = input("Enter the first name of the contact to edit: ")
+                                        address_book.change_details(first_name)
+
+                                    case 4:
+                                        first_name = input("Enter the first name of the contact to delete: ")
+                                        address_book.delete_info(first_name)
+
+                        else:
+                            print("Address book not found.")  
+                case _ :
+                    break
 
         except Exception as e:
             logger.exception(e)

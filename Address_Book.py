@@ -33,30 +33,52 @@ class Address_Book:
         name_update=input(f"Enter the new name for the contact {self.first_name} : ")
         self.first_name=name_update
         print("Name changed ")
-        main()
-
+        return main()
+    
+    def delete_info(self,input_name):
+        for user in user_list:
+            if user.first_name==input_name:
+                user_list.remove(user)
+                print("User deleted ")
+                break
+        else:
+            print("User not found ")
+        return main()
 
 def main():
     try:
-        input_user=int(input("Enter 1 to add user :  Enter 2 to edit user : Enter 3 to check the details of the contact: "))
+        input_user=int(input("Enter 1 to add user :  \n Enter 2 to edit user : \n Enter 3 to check the details of the contact: \n Enter 4 to delete the existing contact: "))
         match(input_user):
             case 1:
                 new_user=input("Enter the first_name of the user")
                 new_user=Address_Book(new_user)
-                user_list.append(new_user) #storing object in the list
-                print(user_list)
+                # user_list.append(new_user) #storing object in the list
             case 2:
                 name_update=input("Enter the name of the contact to change the info: ")
                 for user in user_list:
                     if user.first_name==name_update:
                         user.change_details()
+                        break
                 else:
                     print("contact not found")
+                main()
             case 3:
                 input_name=input("Enter the name of the user to check the details: ")
                 for user in user_list:
                     if user.first_name==input_name:
                         user.show_details()
+                        break
+                else:
+                    print("Contact not found ")
+                main()
+            case 4:
+                input_name=input("Enter the name of the contact to delete the info : ")
+                for user in user_list:
+                    if user.first_name==input_name:
+                        user.delete_info(input_name)
+                else:
+                    print("Contact not found ")
+                main()
     except Exception as e:
         logger.exception(e)
 

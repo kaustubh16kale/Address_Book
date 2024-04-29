@@ -111,6 +111,7 @@ class Address_Book:
             print(f"Contacts loaded from file '{filename}' successfully.")
         except FileNotFoundError:
             print(f"File '{filename}' not found.")
+            logger.exception(FileNotFoundError)
 
 def main():
     address_book_dictionary={} #dictionary to store address book names

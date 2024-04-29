@@ -27,7 +27,8 @@ class Address_Book:
     
     def show_details(self):
         if self.contact:
-            for contact in self.contact:
+            sorted_contacts = sorted(self.contact, key=lambda x: x['first_name'])  #lambda function to sort the contacts based on first_name
+            for contact in sorted_contacts:
                 print(f"First name: {contact['first_name']}, "
                       f"Last name: {contact['last_name']}, "
                       f"Address: {contact['address']}, "

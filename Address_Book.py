@@ -72,7 +72,31 @@ class Address_Book:
         else:
             print(f"No contact from {check_city} city ")  # to check later
         print(f"{count} contact founds from city {check_city}")
-
+    
+    def sort_contact(self):
+        print("1 to sort by first_name \n 2 to sort by last_name \n 3 to sort by city \n ")
+        sort_check=int(input("Enter your choice to sort : "))
+        if sort_check==1:
+            sort_check="first_name"
+        elif sort_check==2:
+            sort_check="last_name"
+        elif sort_check==3:
+            sort_check="city"
+        else:
+            print("invalid input")
+            return
+        if self.contact:
+            sorted_contacts = sorted(self.contact, key=lambda x: x[sort_check])  #lambda function to sort the contacts based on user_input
+            for contact in sorted_contacts:
+                print(f"First name: {contact['first_name']}, "
+                    f"Last name: {contact['last_name']}, "
+                    f"Address: {contact['address']}, "
+                    f"City: {contact['city']}, "
+                    f"Zip code: {contact['zip']}, "
+                    f"Phone number: {contact['phone_number']}, "
+                    f"Email: {contact['email']}")
+        else:
+            print("No contacts to sort")
 
 def main():
     address_book_dictionary={} #dictionary to store address book names
@@ -102,6 +126,7 @@ def main():
                                 print("Enter 3 to edit a contact.")
                                 print("Enter 4 to delete a contact.")
                                 print("Enter 5 to search the person based on city: ")
+                                print("6.sort contacts: ")
                                 option = int(input("Enter your option: "))
 
                                 if option == 0:
@@ -127,6 +152,10 @@ def main():
                                     case 5:
                                         check_city=input("Enter a city name to search details : ")
                                         address_book.search_city(check_city)
+                                    
+                                    case 6:
+                                        # sort_check=input("Enter the factor to sort the contacts based on: i:e(city,zip): ")
+                                        address_book.sort_contact()
 
                         else:
                             print("Address book not found ")  

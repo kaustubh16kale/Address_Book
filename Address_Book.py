@@ -10,27 +10,21 @@ user_list=[] # list to store the object
 class Address_Book:
     def __init__(self,name):
         self.name=name
-        self.contact=[]
+        self.contact=[]  # list used to store multiple dictionaries of contacts
 
     def add_contact(self,first_name):
-        last_name=input("Enter the last name: ")
-        for contact in self.contact:
-            if contact['first_name']==first_name and contact['last_name']==last_name:
-                print(f"Contact name with first_name as {first_name} and last_name as {last_name} already exists: ")
-                break
-        else:
-            contact = {
-                'first_name': first_name,
-                'last_name': last_name,
-                'address': input("Enter the address: "),
-                'city': input("Enter the city: "),
-                'zip': int(input("Enter the zip code: ")),
-                'phone_number': int(input("Enter the phone number: ")),
-                'email': input("Enter the email: ")
-            }
-            self.contact.append(contact)
-            print("Contact added successfully.")
-        
+        contact = {
+            'first_name': first_name,
+            'last_name': input("Enter the last name: "),
+            'address': input("Enter the address: "),
+            'city': input("Enter the city: "),
+            'zip': int(input("Enter the zip code: ")),
+            'phone_number': int(input("Enter the phone number: ")),
+            'email': input("Enter the email: ")
+        }
+        self.contact.append(contact)  # appending dictionaries to contact list
+        print("Contact added successfully.")
+    
     def show_details(self):
         if self.contact:
             for contact in self.contact:
@@ -48,7 +42,6 @@ class Address_Book:
         for contact in self.contact:
             if contact['first_name'] == first_name:
                 print("Enter new details:")
-                contact['first_name']=input(f"first name ({contact['first_name']}): ")
                 contact['last_name'] = input(f"Last name ({contact['last_name']}): ")
                 contact['address'] = input(f"Address ({contact['address']}): ")
                 contact['city'] = input(f"City ({contact['city']}): ")
@@ -60,14 +53,22 @@ class Address_Book:
         else:
             print("Contact not found.")
     
-    def delete_info(self,input_name):
+    def delete_info(self,input_name,last_name):
         for contact in self.contact:
-            if contact['first_name'] == input_name:
+            if contact['first_name'] == input_name and contact['last_name']==last_name:
                 self.contact.remove(contact)
                 print("Contact deleted successfully.")
                 break
         else:
             print("Contact not found.")
+    
+    def search_city(self,check_city):
+        for contact in self.contact:
+            if contact['city']==check_city:
+                print(f"{contact['first_name']} {contact['last_name']}")
+        else:
+            print(f"No contact from {check_city} city ")
+
 
 def main():
     address_book_dictionary={} #dictionary to store address book names
@@ -96,6 +97,7 @@ def main():
                                 print("Enter 2 to show all contacts.")
                                 print("Enter 3 to edit a contact.")
                                 print("Enter 4 to delete a contact.")
+                                print("Enter 5 to search the person based on city: ")
                                 option = int(input("Enter your option: "))
 
                                 if option == 0:
@@ -115,7 +117,12 @@ def main():
 
                                     case 4:
                                         first_name = input("Enter the first name of the contact to delete: ")
-                                        address_book.delete_info(first_name)
+                                        last_name=input("Enter the last name of the contact: ")
+                                        address_book.delete_info(first_name,last_name)
+                                    
+                                    case 5:
+                                        check_city=input("Enter a city name to search details : ")
+                                        address_book.search_city(check_city)
 
                         else:
                             print("Address book not found ")  

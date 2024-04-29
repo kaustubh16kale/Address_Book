@@ -63,7 +63,7 @@ class Address_Book:
         else:
             print("Contact not found.")
     
-    def search_city(self,check_city):
+    def search_city(self,check_city):  # return the count of the contacts form particular city
         count=0
         for contact in self.contact:
             if contact['city']==check_city:

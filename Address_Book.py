@@ -5,29 +5,58 @@ logging.basicConfig(format='%(asctime)s %(message)s',
                     filename="Address.log",
                     level=logging.INFO)
 
+user_list=[] # list to store the object 
+
 class Address_Book:
-    def __init__(self):
-        self.first_name=input("Enter the first name  : ")
+    def __init__(self,first_name):
+        self.first_name=first_name
         self.last_name=input("Enter the last name : ")
         self.address=input("Enter the address : ")
         self.city=input("Enter the city : ")
         self.zip=int(input("Enter the zip code: "))
         self.phone_number=int(input("Enter the phone number : "))
         self.email=input("Enter the email : ")
+        user_list.append(self)
+        main()
     
     def show_details(self):
         print(f"First name is: {self.first_name}, "
               f"Last name is: {self.last_name}, " 
               f"Address is : {self.address}, " 
               f"city is : {self.city}, " 
-              f"zip code is : {zip}, " 
+              f"zip code is : {self.zip}, " 
               f"phone number is : {self.phone_number}, " 
               f"Email is: {self.email}, ")
+        return main()
+    
+    def change_details(self):
+        name_update=input(f"Enter the new name for the contact {self.first_name} : ")
+        self.first_name=name_update
+        print("Name changed ")
+        main()
+
 
 def main():
     try:
-        person1=Address_Book()
-        person1.show_details()
+        input_user=int(input("Enter 1 to add user :  Enter 2 to edit user : Enter 3 to check the details of the contact: "))
+        match(input_user):
+            case 1:
+                new_user=input("Enter the first_name of the user")
+                new_user=Address_Book(new_user)
+                user_list.append(new_user) #storing object in the list
+                print(user_list)
+            case 2:
+                name_update=input("Enter the name of the contact to change the info: ")
+                for user in user_list:
+                    if user.first_name==name_update:
+                        user.change_details()
+                else:
+                    print("contact not found")
+            case 3:
+                input_name=input("Enter the name of the user to check the details: ")
+                for user in user_list:
+                    if user.first_name==input_name:
+                        user.show_details()
     except Exception as e:
         logger.exception(e)
 

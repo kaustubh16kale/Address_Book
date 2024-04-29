@@ -1,4 +1,5 @@
 import logging
+import json
 
 logger=logging.getLogger(__name__)
 logging.basicConfig(format='%(asctime)s %(message)s',
@@ -97,12 +98,25 @@ class Address_Book:
                     f"Email: {contact['email']}")
         else:
             print("No contacts to sort")
+    
+    def save_to_file(self, filename):
+        with open(filename, 'w') as file:
+            json.dump(self.contact, file)
+        print(f"Contacts of address book '{self.name}' saved to file '{filename}' successfully.")
+    
+    def load_from_file(self, filename):
+        try:
+            with open(filename, 'r') as file:
+                self.contact = json.load(file)
+            print(f"Contacts loaded from file '{filename}' successfully.")
+        except FileNotFoundError:
+            print(f"File '{filename}' not found.")
 
 def main():
     address_book_dictionary={} #dictionary to store address book names
     while True:
         try:
-            print("Press ENTER to close the programm : \n Enter 1 to add new address book \n Enter 2 to select existing address book : ")
+            print("Press ENTER to close the programm : \n Enter 1 to add new address book \n Enter 2 to select existing address book : /n Enter 3 to save all the address book in file : /n Enter 4 to load the address books from the saved file : ")
             input_choice=int(input("Enter the choice: "))
             match input_choice:
                 case 1:
@@ -155,10 +169,22 @@ def main():
                                     
                                     case 6:
                                         # sort_check=input("Enter the factor to sort the contacts based on: i:e(city,zip): ")
-                                        address_book.sort_contact()
-
+                                        address_book.sort_contact()          
                         else:
                             print("Address book not found ")  
+                case 3:
+                    for name, address_book in address_book_dictionary.items():
+                        filename = f"{name}.json"
+                        address_book.save_to_file(filename)
+                    print("All address books saved successfully.")
+                
+                case 4:
+                    name = input("Enter the name of the address book to load from file: ")
+                    filename = f"{name}.json"
+                    address_book = Address_Book(name)
+                    address_book.load_from_file(filename)
+                    address_book_dictionary[name] = address_book
+                
                 case _ :
                     break
 

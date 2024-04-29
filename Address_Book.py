@@ -67,7 +67,7 @@ class Address_Book:
             if contact['city']==check_city:
                 print(f"{contact['first_name']} {contact['last_name']}")
         else:
-            print(f"No contact from {check_city} city ")
+            print(f"No contact from {check_city} city ")  # to check later
 
 
 def main():

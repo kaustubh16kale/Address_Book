@@ -13,18 +13,24 @@ class Address_Book:
         self.contact=[]
 
     def add_contact(self,first_name):
-        contact = {
-            'first_name': first_name,
-            'last_name': input("Enter the last name: "),
-            'address': input("Enter the address: "),
-            'city': input("Enter the city: "),
-            'zip': int(input("Enter the zip code: ")),
-            'phone_number': int(input("Enter the phone number: ")),
-            'email': input("Enter the email: ")
-        }
-        self.contact.append(contact)
-        print("Contact added successfully.")
-    
+        last_name=input("Enter the last name: ")
+        for contact in self.contact:
+            if contact['first_name']==first_name and contact['last_name']==last_name:
+                print(f"Contact name with first_name as {first_name} and last_name as {last_name} already exists: ")
+                break
+        else:
+            contact = {
+                'first_name': first_name,
+                'last_name': last_name,
+                'address': input("Enter the address: "),
+                'city': input("Enter the city: "),
+                'zip': int(input("Enter the zip code: ")),
+                'phone_number': int(input("Enter the phone number: ")),
+                'email': input("Enter the email: ")
+            }
+            self.contact.append(contact)
+            print("Contact added successfully.")
+        
     def show_details(self):
         if self.contact:
             for contact in self.contact:
@@ -42,6 +48,7 @@ class Address_Book:
         for contact in self.contact:
             if contact['first_name'] == first_name:
                 print("Enter new details:")
+                contact['first_name']=input(f"first name ({contact['first_name']}): ")
                 contact['last_name'] = input(f"Last name ({contact['last_name']}): ")
                 contact['address'] = input(f"Address ({contact['address']}): ")
                 contact['city'] = input(f"City ({contact['city']}): ")

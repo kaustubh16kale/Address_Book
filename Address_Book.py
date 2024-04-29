@@ -99,12 +99,12 @@ class Address_Book:
         else:
             print("No contacts to sort")
     
-    def save_to_file(self, filename):
+    def save_to_file(self, filename): # save all the contacts to the json file
         with open(filename, 'w') as file:
             json.dump(self.contact, file)
         print(f"Contacts of address book '{self.name}' saved to file '{filename}' successfully.")
     
-    def load_from_file(self, filename):
+    def load_from_file(self, filename): # read the data from the json file
         try:
             with open(filename, 'r') as file:
                 self.contact = json.load(file)

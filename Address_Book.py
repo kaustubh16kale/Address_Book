@@ -9,12 +9,8 @@ logging.basicConfig(format='%(asctime)s %(message)s',
 user_list=[] 
 
 class Address_Book:
+    '''class Address_Book to represent the address book'''
     def __init__(self,name):
-        '''
-        Function: Constructor for creating object of address book
-        Parameter: Self,Name:Name of the Address book 
-        Return : None
-        '''
         self.name=name
         self.contact=[]
 
@@ -43,7 +39,7 @@ class Address_Book:
         Return: None
         '''
         if self.contact:
-            sorted_contacts = sorted(self.contact, key=lambda x: x['first_name'])  #lambda function to sort the contacts based on first_name
+            sorted_contacts = sorted(self.contact, key=lambda x: x['first_name'])
             for contact in sorted_contacts:
                 print(f"First name: {contact['first_name']}, "
                       f"Last name: {contact['last_name']}, "
@@ -104,7 +100,7 @@ class Address_Book:
                 print(f"{contact['first_name']} {contact['last_name']}")
                 count+=1
         else:
-            print(f"No contact from {check_city} city ")  # to check later
+            print(f"No contact from {check_city} city ")
         print(f"{count} contact founds from city {check_city}")
     
     def sort_contact(self):
@@ -125,7 +121,7 @@ class Address_Book:
             print("invalid input")
             return
         if self.contact:
-            sorted_contacts = sorted(self.contact, key=lambda x: x[sort_check])  #lambda function to sort the contacts based on user_input
+            sorted_contacts = sorted(self.contact, key=lambda x: x[sort_check])
             for contact in sorted_contacts:
                 print(f"First name: {contact['first_name']}, "
                     f"Last name: {contact['last_name']}, "
@@ -169,7 +165,7 @@ def main():
     Parameters: None
     Return: None
     '''
-    address_book_dictionary={} #dictionary to store address book names
+    address_book_dictionary={}
     while True:
         try:
             print("Press ENTER to close the programm : \n Enter 1 to add new address book \n Enter 2 to select existing address book : /n Enter 3 to save all the address book in file : /n Enter 4 to load the address books from the saved file : ")

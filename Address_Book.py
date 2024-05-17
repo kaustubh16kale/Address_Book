@@ -6,14 +6,24 @@ logging.basicConfig(format='%(asctime)s %(message)s',
                     filename="Address.log",
                     level=logging.INFO)
 
-user_list=[] # list to store the object 
+user_list=[] 
 
 class Address_Book:
     def __init__(self,name):
+        '''
+        Function: Constructor for creating object of address book
+        Parameter: Self,Name:Name of the Address book 
+        Return : None
+        '''
         self.name=name
-        self.contact=[]  # list used to store multiple dictionaries of contacts
+        self.contact=[]
 
     def add_contact(self,first_name):
+        '''
+        Function: add_contact: Function to add contact in the address book
+        Parameters: first_name: first_name of the contact
+        Return: None
+        '''
         contact = {
             'first_name': first_name,
             'last_name': input("Enter the last name: "),
@@ -27,6 +37,11 @@ class Address_Book:
         print("Contact added successfully.")
     
     def show_details(self):
+        '''
+        Function: show_details: Function used to print the detail of the address book
+        Parameter: self: reference to the object of the address book
+        Return: None
+        '''
         if self.contact:
             sorted_contacts = sorted(self.contact, key=lambda x: x['first_name'])  #lambda function to sort the contacts based on first_name
             for contact in sorted_contacts:
@@ -41,6 +56,11 @@ class Address_Book:
             print("No contacts found.")
     
     def change_details(self,first_name):
+        '''
+        Function: change_detail: Function to change the existing detail of the contact
+        Parameters: self,first_name: first_name- name of the user
+        Return : None
+        '''
         for contact in self.contact:
             if contact['first_name'] == first_name:
                 print("Enter new details:")
@@ -56,6 +76,13 @@ class Address_Book:
             print("Contact not found.")
     
     def delete_info(self,input_name,last_name):
+        '''
+        Function: delete_info: Function to delete the information of the contact
+        Parameters: self: self reference object
+                    input_name: refered as first_name of the contact
+                    last_name:  refered as the last name of the contact
+        Return: None
+        '''
         for contact in self.contact:
             if contact['first_name'] == input_name and contact['last_name']==last_name:
                 self.contact.remove(contact)
@@ -64,7 +91,13 @@ class Address_Book:
         else:
             print("Contact not found.")
     
-    def search_city(self,check_city):  # return the count of the contacts form particular city
+    def search_city(self,check_city):
+        '''
+        Function: search_city: Function to check the total number of contact from particular city
+        Parameters: self: self reference object
+                    check_city: name of the city (user input)
+        Return : Total count of the contacts from particular city
+        '''
         count=0
         for contact in self.contact:
             if contact['city']==check_city:
@@ -75,6 +108,11 @@ class Address_Book:
         print(f"{count} contact founds from city {check_city}")
     
     def sort_contact(self):
+        '''
+        Function: sort_contact: Function used to sort the existing contacts according to the user parameters
+        Parameters: self: self reference object
+        Return : Sorted contacts from the address book
+        '''
         print("1 to sort by first_name \n 2 to sort by last_name \n 3 to sort by city \n ")
         sort_check=int(input("Enter your choice to sort : "))
         if sort_check==1:
@@ -99,12 +137,24 @@ class Address_Book:
         else:
             print("No contacts to sort")
     
-    def save_to_file(self, filename): # save all the contacts to the json file
+    def save_to_file(self, filename):
+        '''
+        Function: save_to_file: Function to save the address book
+        Parameters: self: self reference object
+                    filename: user input name of the file as which the address book is to be saved
+        Return: None
+        '''
         with open(filename, 'w') as file:
             json.dump(self.contact, file)
         print(f"Contacts of address book '{self.name}' saved to file '{filename}' successfully.")
     
-    def load_from_file(self, filename): # read the data from the json file
+    def load_from_file(self, filename):
+        '''
+        Function: load_from_file: Function to load the existing saved file
+        Parameters: self: self reference object
+                    filename: name of the address book to be load
+        Return: None
+        '''
         try:
             with open(filename, 'r') as file:
                 self.contact = json.load(file)
@@ -114,6 +164,11 @@ class Address_Book:
             logger.exception(FileNotFoundError)
 
 def main():
+    '''
+    Function: main
+    Parameters: None
+    Return: None
+    '''
     address_book_dictionary={} #dictionary to store address book names
     while True:
         try:
